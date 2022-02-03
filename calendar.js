@@ -62,24 +62,30 @@ class Calendar {
     createYearButtons() {
         let tr, th;
         tr = document.createElement('tr');
+        th = document.createElement('th');
         let previousButton = document.createElement('button');
         previousButton.textContent = '<';
         previousButton.addEventListener('click', (e) => {
             this.currentYear--;
-            renderTable();
+            this.renderTable();
         })
-        tr.append(previousButton);
+        th.classList.add('table-button-left')
+        th.append(previousButton);
+        tr.append(th);
         th = document.createElement('th');
         th.textContent = this.currentYear;
         th.setAttribute('colSpan','5')
         tr.append(th);
+        th = document.createElement('th');
         let nextButton = document.createElement('button');
         nextButton.textContent = '>';
         nextButton.addEventListener('click', (e) => {
             this.currentYear++;
-            renderTable();
+            this.renderTable();
         })
-        tr.append(nextButton);
+        th.classList.add('table-button-right');
+        th.append(nextButton);
+        tr.append(th);
         return tr;
     }
     renderYearButtons() {
@@ -111,6 +117,7 @@ class Calendar {
             this.decreaseMonth();
             this.renderTable();
         })
+        th.classList.add('table-button-left');
         th.setAttribute('colSpan','2');
         th.append(previousButton)
         tr.append(th);
@@ -133,6 +140,7 @@ class Calendar {
             this.increaseMonth();
             this.renderTable();
         })
+        th.classList.add('table-button-right');
         th.setAttribute('colSpan','2');
         th.append(nextButton);
         tr.append(th);
