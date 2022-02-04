@@ -1,3 +1,4 @@
+import { createBookingTable } from './index';
 class Calendar {
     static monthNames = ['', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     static weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
@@ -74,7 +75,7 @@ class Calendar {
         tr.append(th);
         th = document.createElement('th');
         th.textContent = this.currentYear;
-        th.setAttribute('colSpan','5')
+        th.setAttribute('colSpan', '5')
         tr.append(th);
         th = document.createElement('th');
         let nextButton = document.createElement('button');
@@ -91,7 +92,7 @@ class Calendar {
     renderYearButtons() {
         this.table.append(this.createYearButtons());
     }
-    increaseMonth(){
+    increaseMonth() {
         if (this.currentMonth === 12) {
             this.currentMonth = 1;
             this.currentYear++;
@@ -118,7 +119,7 @@ class Calendar {
             this.renderTable();
         })
         th.classList.add('table-button-left');
-        th.setAttribute('colSpan','2');
+        th.setAttribute('colSpan', '2');
         th.append(previousButton)
         tr.append(th);
         th = document.createElement('th');
@@ -141,64 +142,64 @@ class Calendar {
             this.renderTable();
         })
         th.classList.add('table-button-right');
-        th.setAttribute('colSpan','2');
+        th.setAttribute('colSpan', '2');
         th.append(nextButton);
         tr.append(th);
         return tr;
     }
-    renderMonthButtons(){
+    renderMonthButtons() {
         this.table.append(this.createMonthButtons());
     }
     previousMonthIndex = (curMonth) => curMonth === 1 ? 12 : curMonth - 1;
     nextMonthIndex = curMonth => curMonth === 12 ? 1 : curMonth + 1;
-printDateString(day, month, year) {
-    console.log(`${day.padStart(2, '0')}-${month.toString().padStart(2, '0')}-${year}`);
-}
-nextMonthAndYearIndexes = (month, year)=>{
-    let nextYear = month === 12 ? year + 1 : year;
-    let nextMonth = this.nextMonthIndex(month);
-    return [nextMonth, nextYear];
-}
-previousMonthAndYearIndexes = (month, year) => {
-    let previousYear = month === 1 ? year - 1 : year;
-    let previousMonth = this.previousMonthIndex(month);
-    return [previousMonth, previousYear]
-}
-createMonthDays = () => {
-    let monthLength = this.getMonthLength(this.currentMonth, this.currentYear);
-    let previousMonthLength = this.getMonthLength(this.previousMonthIndex(this.currentMonth), this.currentYear)
-    let firstOfMonth = this.getStartingDayOfCurrentMonth();
-    let totalDrawn = 0;
-    let tr, td;
-    let tbody = document.createElement('tbody');
-    console.log(totalDrawn, monthLength, firstOfMonth);
-    while (totalDrawn < monthLength + firstOfMonth) {
-        tr = document.createElement('tr');
-        for (let i = 0; i < 7; i++) {
-            td = document.createElement('td');
-            // td.textContent = (totalDrawn >= firstOfMonth && totalDrawn - firstOfMonth < monthLength) ? totalDrawn - firstOfMonth + 1 : '/';
-            if (totalDrawn >= firstOfMonth && totalDrawn - firstOfMonth < monthLength) {
-             td.textContent = totalDrawn - firstOfMonth + 1;
-            td.addEventListener('click', this.printDateString.bind(null,td.textContent, this.currentMonth, this.currentYear))
-            } else if (totalDrawn < firstOfMonth) {
-                td.textContent = previousMonthLength + totalDrawn - firstOfMonth + 1; 
-                td.style.color = 'gray'
-                td.addEventListener('click', this.printDateString.bind(null,td.textContent, ...this.previousMonthAndYearIndexes(this.currentMonth, this.currentYear)))
-            } else {
-                td.textContent = totalDrawn - firstOfMonth - monthLength + 1;
-                td.style.color = 'gray'
-                td.addEventListener('click', this.printDateString.bind(null,td.textContent, ...this.nextMonthAndYearIndexes(this.currentMonth, this.currentYear)))
-            }
-            tr.append(td);
-            totalDrawn++;
-        }
-        tbody.append(tr);
+    printDateString(day, month, year) {
+        console.log(`${day.padStart(2, '0')}-${month.toString().padStart(2, '0')}-${year}`);
     }
-    return tbody;
-    // create td and raise totaldrawn; if totaldrawn >= firstofmonth you start using numbers instead of /. if totaldrawn >= daysinmonth + firstofmonth stop weeks
-}
-renderMonthDays(){
-    this.table.append(this.createMonthDays());
-}
+    nextMonthAndYearIndexes = (month, year) => {
+        let nextYear = month === 12 ? year + 1 : year;
+        let nextMonth = this.nextMonthIndex(month);
+        return [nextMonth, nextYear];
+    }
+    previousMonthAndYearIndexes = (month, year) => {
+        let previousYear = month === 1 ? year - 1 : year;
+        let previousMonth = this.previousMonthIndex(month);
+        return [previousMonth, previousYear]
+    }
+    createMonthDays = () => {
+        let monthLength = this.getMonthLength(this.currentMonth, this.currentYear);
+        let previousMonthLength = this.getMonthLength(this.previousMonthIndex(this.currentMonth), this.currentYear)
+        let firstOfMonth = this.getStartingDayOfCurrentMonth();
+        let totalDrawn = 0;
+        let tr, td;
+        let tbody = document.createElement('tbody');
+        console.log(totalDrawn, monthLength, firstOfMonth);
+        while (totalDrawn < monthLength + firstOfMonth) {
+            tr = document.createElement('tr');
+            for (let i = 0; i < 7; i++) {
+                td = document.createElement('td');
+                // td.textContent = (totalDrawn >= firstOfMonth && totalDrawn - firstOfMonth < monthLength) ? totalDrawn - firstOfMonth + 1 : '/';
+                if (totalDrawn >= firstOfMonth && totalDrawn - firstOfMonth < monthLength) {
+                    td.textContent = totalDrawn - firstOfMonth + 1;
+                    td.addEventListener('click', this.printDateString.bind(null, td.textContent, this.currentMonth, this.currentYear))
+                } else if (totalDrawn < firstOfMonth) {
+                    td.textContent = previousMonthLength + totalDrawn - firstOfMonth + 1;
+                    td.style.color = 'gray'
+                    td.addEventListener('click', this.printDateString.bind(null, td.textContent, ...this.previousMonthAndYearIndexes(this.currentMonth, this.currentYear)))
+                } else {
+                    td.textContent = totalDrawn - firstOfMonth - monthLength + 1;
+                    td.style.color = 'gray'
+                    td.addEventListener('click', this.printDateString.bind(null, td.textContent, ...this.nextMonthAndYearIndexes(this.currentMonth, this.currentYear)))
+                }
+                tr.append(td);
+                totalDrawn++;
+            }
+            tbody.append(tr);
+        }
+        return tbody;
+        // create td and raise totaldrawn; if totaldrawn >= firstofmonth you start using numbers instead of /. if totaldrawn >= daysinmonth + firstofmonth stop weeks
+    }
+    renderMonthDays() {
+        this.table.append(this.createMonthDays());
+    }
 }
 let calendar = new Calendar(document.getElementById('root'));

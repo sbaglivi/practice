@@ -112,11 +112,12 @@ let appointmentList = [
     { name: '', time: '16:30:00' },
     { name: '', time: '17:00:00' },
 ]
-let slots = createDailySlots();
-console.log(slots);
-checkBookedSlots(slots, appointmentList);
-console.log(slots);
 let table2 = document.createElement('table');
-createTableHead(table2);
-createTableRowsFromSlots(slots, table2);
+export function createBookingTable(table) {
+    let slots = createDailySlots();
+    checkBookedSlots(slots, appointmentList);
+    createTableHead(table);
+    createTableRowsFromSlots(slots, table);
+}
+createBookingTable(table2);
 root.append(table2);
